@@ -12,10 +12,10 @@ import { runMigrationsAsync } from './migration';
 
     providerConfigs = { shouldUseInProcessGanache: false };
     provider = web3Factory.getRpcProvider(providerConfigs);
-    txDefaults = {
-        from: devConstants.TESTRPC_FIRST_ADDRESS,
-    };
-    await runMigrationsAsync(provider, txDefaults);
+    // txDefaults = {
+    //     from: defaultAddr
+    // };
+    await runMigrationsAsync(provider, {});
     process.exit(0);
 })().catch(err => {
     logUtils.log(err);

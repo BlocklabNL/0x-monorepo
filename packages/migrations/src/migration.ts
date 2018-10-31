@@ -20,6 +20,17 @@ import { erc20TokenInfo, erc721TokenInfo } from './utils/token_info';
 export async function runMigrationsAsync(provider: Provider, txDefaults: Partial<TxData>): Promise<ContractAddresses> {
     const web3Wrapper = new Web3Wrapper(provider);
 
+    // Multisigs
+    const accounts: string[] = await web3Wrapper.getAvailableAddressesAsync();
+    const owners = [accounts[0], accounts[1]];
+    const confirmationsRequired = new BigNumber(2);
+    const secondsRequired = new BigNumber(0);
+    const owner = accounts[0];
+
+    txDefaults = {
+        from: owner
+    }
+
     // Proxies
     const erc20Proxy = await wrappers.ERC20ProxyContract.deployFrom0xArtifactAsync(
         artifacts.ERC20Proxy,
@@ -49,13 +60,6 @@ export async function runMigrationsAsync(provider: Provider, txDefaults: Partial
         provider,
         txDefaults,
     );
-
-    // Multisigs
-    const accounts: string[] = await web3Wrapper.getAvailableAddressesAsync();
-    const owners = [accounts[0], accounts[1]];
-    const confirmationsRequired = new BigNumber(2);
-    const secondsRequired = new BigNumber(0);
-    const owner = accounts[0];
 
     // AssetProxyOwner
     const assetProxyOwner = await wrappers.AssetProxyOwnerContract.deployFrom0xArtifactAsync(
