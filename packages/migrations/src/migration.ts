@@ -22,7 +22,10 @@ export async function runMigrationsAsync(provider: Provider, txDefaults: Partial
 
     // Multisigs
     const accounts: string[] = await web3Wrapper.getAvailableAddressesAsync();
-    const owners = [accounts[0], accounts[1]];
+    const owners = [
+        accounts[0], 
+        accounts[1]
+    ];
     const confirmationsRequired = new BigNumber(2);
     const secondsRequired = new BigNumber(0);
     const owner = accounts[0];
@@ -77,11 +80,11 @@ export async function runMigrationsAsync(provider: Provider, txDefaults: Partial
             from: owner,
         }),
     );
-    // await web3Wrapper.awaitTransactionSuccessAsync(
-    //     await erc20Proxy.transferOwnership.sendTransactionAsync(assetProxyOwner.address, {
-    //         from: owner,
-    //     }),
-    // );
+    await web3Wrapper.awaitTransactionSuccessAsync(
+        await erc20Proxy.transferOwnership.sendTransactionAsync(assetProxyOwner.address, {
+            from: owner,
+        }),
+    );
 
     await web3Wrapper.awaitTransactionSuccessAsync(
         await erc721Proxy.addAuthorizedAddress.sendTransactionAsync(exchange.address, {
@@ -103,29 +106,29 @@ export async function runMigrationsAsync(provider: Provider, txDefaults: Partial
     );
 
     // Dummy ERC20 tokens
-    for (const token of erc20TokenInfo) {
-        const totalSupply = new BigNumber(1000000000000000000000000000);
-        // tslint:disable-next-line:no-unused-variable
-        const dummyErc20Token = await wrappers.DummyERC20TokenContract.deployFrom0xArtifactAsync(
-            artifacts.DummyERC20Token,
-            provider,
-            txDefaults,
-            token.name,
-            token.symbol,
-            token.decimals,
-            totalSupply,
-        );
-    }
+    // for (const token of erc20TokenInfo) {
+    //     const totalSupply = new BigNumber(1000000000000000000000000000);
+    //     // tslint:disable-next-line:no-unused-variable
+    //     const dummyErc20Token = await wrappers.DummyERC20TokenContract.deployFrom0xArtifactAsync(
+    //         artifacts.DummyERC20Token,
+    //         provider,
+    //         txDefaults,
+    //         token.name,
+    //         token.symbol,
+    //         token.decimals,
+    //         totalSupply,
+    //     );
+    // }
 
     // ERC721
     // tslint:disable-next-line:no-unused-variable
-    const cryptoKittieToken = await wrappers.DummyERC721TokenContract.deployFrom0xArtifactAsync(
-        artifacts.DummyERC721Token,
-        provider,
-        txDefaults,
-        erc721TokenInfo[0].name,
-        erc721TokenInfo[0].symbol,
-    );
+    // const cryptoKittieToken = await wrappers.DummyERC721TokenContract.deployFrom0xArtifactAsync(
+    //     artifacts.DummyERC721Token,
+    //     provider,
+    //     txDefaults,
+    //     erc721TokenInfo[0].name,
+    //     erc721TokenInfo[0].symbol,
+    // );
 
     // Forwarder
     const forwarder = await wrappers.ForwarderContract.deployFrom0xArtifactAsync(
