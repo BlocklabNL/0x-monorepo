@@ -80,11 +80,11 @@ export async function runMigrationsAsync(provider: Provider, txDefaults: Partial
             from: owner,
         }),
     );
-    await web3Wrapper.awaitTransactionSuccessAsync(
-        await erc20Proxy.transferOwnership.sendTransactionAsync(assetProxyOwner.address, {
-            from: owner,
-        }),
-    );
+    // await web3Wrapper.awaitTransactionSuccessAsync(
+    //     await erc20Proxy.transferOwnership.sendTransactionAsync(assetProxyOwner.address, {
+    //         from: owner,
+    //     }),
+    // );
 
     await web3Wrapper.awaitTransactionSuccessAsync(
         await erc721Proxy.addAuthorizedAddress.sendTransactionAsync(exchange.address, {
