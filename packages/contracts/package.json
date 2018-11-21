@@ -1,7 +1,7 @@
 {
-    "private": true,
-    "name": "contracts",
-    "version": "2.1.50",
+    "private": false,
+    "name": "@0x/contracts",
+    "version": "2.1.51",
     "engines": {
         "node": ">=6.12"
     },
